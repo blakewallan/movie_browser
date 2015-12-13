@@ -1,0 +1,17 @@
+{
+  "development": {
+    "database": "torrent_browser",
+    "host": "127.0.0.1",
+    "dialect": "postgres"
+  },
+  "test": {
+    "database": "torrent_browser",
+    "host": "127.0.0.1",
+    "dialect": "postgres"
+  },
+  "production": {
+    "database": "torrent_browser",
+    "host": "127.0.0.1",
+    "dialect": "postgres"
+  }
+}
