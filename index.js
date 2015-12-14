@@ -14,7 +14,9 @@ app.use(express.static(__dirname + '/static'));
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(flash());
 
-
+app.get('/', function(req, res){
+    res.render('index');
+});
 
 
 app.listen(process.env.PORT || 3000)

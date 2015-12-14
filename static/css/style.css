@@ -1,0 +1,16 @@
+#landing-page {
+    height: 1000px;
+    /*TODO:Fix background size */
+    background: url("/assets/img/dock.jpg") no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    margin: 0;
+}
+
+#login {
+    padding-top: 10%;
+    width: 33%;
+}
+
