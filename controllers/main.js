@@ -14,4 +14,14 @@ router.get('/restricted', function(req, res) {
   }
 });
 
+router.get('/browse', function(req, res){
+  if(req.user) {
+    res.render('browse');
+  }
+  else {
+    req.flash('danger', 'Please log in or sign up');
+    res.redirect('/');
+  }
+});
+
 module.exports = router;

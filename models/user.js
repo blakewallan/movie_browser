@@ -3,7 +3,12 @@ var bcrypt = require('bcrypt');
 
 module.exports = function(sequelize, DataTypes) {
   var user = sequelize.define('user', {
-    username: DataTypes.STRING,
+    username:  {
+        type : DataTypes.STRING,
+        validate : {
+            notEmpty : true
+        }
+    },
     email: {
         type : DataTypes.STRING,
         validate : {
@@ -38,6 +43,15 @@ module.exports = function(sequelize, DataTypes) {
             }).catch(callback);
         }
     },
+      instanceMethods : {
+          checkPassword: function(password, callback){
+              if(password && this.password){
+                  bcrypt.compare(password, this.password, callback);
+              } else {
+                  callback(null, false);
+              }
+          }
+      },
       hooks: {
           beforeCreate: function(user, options, callback) {
               if (!user.password) return callback(null, user);

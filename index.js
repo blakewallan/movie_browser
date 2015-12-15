@@ -33,5 +33,7 @@ app.use(function(req,res,next){
 
 app.use('/', require('./controllers/main'));
 app.use('/auth', require('./controllers/auth'));
+app.use('/userhome', require('./controllers/userhome'));
+app.use('/friends', require('./controllers/friends'));
 
 app.listen(3000);

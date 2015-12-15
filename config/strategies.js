@@ -30,4 +30,4 @@ module.exports = {
       done(null, user.get());
     }).catch(done);
   }
-}
+};

@@ -1,1 +1,24 @@
-<h1>Welcome Home</h1>
+<% if(!currentUser){ %>
+
+<h1>Login</h1>
+
+<form method="POST" role="form" action="/auth/login">
+    <div class="form-group">
+        <label for="email" class="hidden">Email</label>
+        <input type="email" class="form-control" id="email" placeholder="Email" name="email">
+    </div>
+    <div class="form-group">
+        <label for="password" class="hidden">Password</label>
+        <input type="password" class="form-control" id="password" placeholder="Password" name="password">
+    </div>
+
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+
+
+<% } else {%>
+
+<h1>Welcome back <%= currentUser.username %> </h1>
+
+
+<% } %>

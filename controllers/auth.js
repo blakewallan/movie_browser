@@ -16,7 +16,7 @@ router.route('/signup')
         where: {email: req.body.email},
         defaults: {
           password: req.body.password,
-          name: req.body.name
+          username: req.body.username
         }
       }).spread(function(user, created) {
         if (created) {
