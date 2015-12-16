@@ -3,6 +3,7 @@ var bodyParser = require('body-parser');
 var ejsLayouts = require('express-ejs-layouts');
 var session = require('express-session');
 var flash = require('connect-flash');
+var request = require('request');
 var db = require('./models');
 var passport = require('passport');
 var strategies = require('./config/strategies');
@@ -35,5 +36,7 @@ app.use('/', require('./controllers/main'));
 app.use('/auth', require('./controllers/auth'));
 app.use('/userhome', require('./controllers/userhome'));
 app.use('/friends', require('./controllers/friends'));
+app.use('/search', require('./controllers/search'));
+app.use('/expandedResult', require('./controllers/expandedResult'));
 
 app.listen(3000);

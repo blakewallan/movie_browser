@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Authentication</title>
+    <title>Torrent Browser</title>
 
     <!-- Bootstrap CSS -->
     <link href="//netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
@@ -46,12 +46,14 @@
           <li><a href="/auth/login">Login</a></li>
           <li><a href="/auth/signup">Signup</a></li>
           <% } else { %>
-            <form class="navbar-form navbar-left" role="search">
+
+            <form class="navbar-form navbar-left" role="search" action="/search" method="POST">
                 <div class="form-group">
-                    <input type="text" class="form-control" placeholder="Search">
+                    <input type="text" class="form-control" placeholder="Search" name="q">
                 </div>
                 <button type="submit" class="btn btn-default">Submit</button>
             </form>
+
           <p class="navbar-text">Signed in as <%= currentUser.username %></p>
           <li><a href="/auth/logout">Logout</a></li>
           <% } %>
