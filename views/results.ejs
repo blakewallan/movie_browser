@@ -1,6 +1,6 @@
 <h1>RESULTS PAGE</h1>
 
-<% if (results[0]) { %>
+<% console.log(results); if (results[0]) { %>
 
     <% results.forEach(function(result) { %>
 
@@ -14,7 +14,9 @@
         </a>
         <%}%>
 
-    <% }); %>
+    <% });  %>
+
+
 
 <% } else { %>
 <h1>No results found for your search term</h1>

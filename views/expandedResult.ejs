@@ -2,14 +2,15 @@
 
 <div class="container">
 
-<h1><%=fullResult.Genre%></h1>
+
+<h1><%=fullResults.omdbResults[0].Genre%></h1>
 
 
     <div class="col-md-6">
 
         <%
-        if(fullResult.Poster !== 'N/A'){
-            var pic = fullResult.Poster;
+        if(fullResults.omdbResults[0].Poster !== 'N/A'){
+            var pic = fullResults.omdbResults[0].Poster;
         }
         else {
             var pic =  'http://placehold.it/300x400';
@@ -23,9 +24,11 @@
 
     <div class="col-md-6">
 
-        <h1><%= fullResult.Title %></h1>
+        <h1><%= fullResults.omdbResults[0].Title %></h1>
         <br>
-        <p><%= fullResult.Plot %></p>
+        <p><%= fullResults.omdbResults[0].Plot %></p>
+
+        <a href="<%= 'magnet:?xt=urn:btih:' + fullResults.torrents[0].torrent_hash%>"><button class="btn btn-primary">Download</button> </a>
 
     </div>
 
