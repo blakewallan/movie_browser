@@ -1,19 +1,33 @@
-#landing-page {
-    height: 1000px;
-    /*TODO:Fix this it doesnt link */
-    background: url("/assets/img/dock.jpg") no-repeat center center fixed;
-    -webkit-background-size: cover;
-    -moz-background-size: cover;
-    -o-background-size: cover;
-    background-size: cover;
-    margin: 0;
+/*#landing-page {*/
+    /*height: 1000px;*/
+    /*background: url("/assets/img/dock.jpg") no-repeat center center fixed;*/
+    /*-webkit-background-size: cover;*/
+    /*-moz-background-size: cover;*/
+    /*-o-background-size: cover;*/
+    /*background-size: cover;*/
+    /*margin: 0;*/
+/*}*/
+
+body {
+    background-color: #b6b6b6;
 }
 
-#login {
+img {
+    width: 300px;
+    height: 400px;
+    padding: 10px;
+}
+
+.login {
     padding-top: 10%;
     width: 33%;
+    margin: 0 auto;
 }
 
 h1 {
-    font-size: 100px;
+    font-size: 60px;
+}
+
+.btn {
+    border-radius: 0;
 }

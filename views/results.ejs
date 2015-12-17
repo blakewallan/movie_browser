@@ -1,5 +1,7 @@
 <h1>RESULTS PAGE</h1>
 
+<div class="container-fluid">
+
 <% if (results[0]) { %>
 
     <% results.forEach(function(result) { %>
@@ -8,6 +10,8 @@
         if(result.Poster !== 'N/A'){
             var pic = result.Poster;
             %>
+
+
 
         <a href="<%='expandedResult/' + result.imdbID%>">
             <img src="<%= pic %>">
@@ -22,3 +26,5 @@
 <h1>No results found for your search term</h1>
 
 <% } %>
+
+    </div>

@@ -1,16 +1,14 @@
-<h1>WORK PLZ</h1>
-
 <div class="container">
 
-
-    <h1><%=fullResult.Genre%></h1>
-
+    <% var omdb = fullResult.fullResults.omdbResults[0];
+    var torrents = fullResult.fullResults.torrents[0];
+    if(omdb){ %>
 
     <div class="col-md-6">
 
         <%
-        if(fullResult.Poster !== 'N/A'){
-            var pic = fullResult.Poster
+        if(omdb.Poster !== 'N/A'){
+            var pic = omdb.Poster
         }
         else {
             var pic =  'http://placehold.it/300x400'
@@ -24,11 +22,20 @@
 
     <div class="col-md-6">
 
-        <h1><%= fullResult.Title %></h1>
+        <h1><%= omdb.Title %></h1>
         <br>
-        <p><%= fullResult.Plot %></p>
+        <h3><%= omdb.Genre%></h3>
+        <br>
+        <p><%= omdb.Plot %>
+            <br>
 
+            <a href="<%= 'magnet:?xt=urn:btih:' + torrents.torrent_hash%>"><button class="btn btn-primary">Download</button> </a>
 
+<% } else { %>
+
+        <h1>Sorry this movie can not be loaded</h1>
+
+        <% } %>
 
     </div>
 

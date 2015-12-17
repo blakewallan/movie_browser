@@ -1,8 +1,10 @@
+<div id="landing-page">
+
 <% if(!currentUser){ %>
 
-<h1>Login</h1>
 
-<form method="POST" role="form" action="/auth/login">
+<form method="POST" role="form" action="/auth/login" class="login">
+    <h1>Login</h1>
     <div class="form-group">
         <label for="email" class="hidden">Email</label>
         <input type="email" class="form-control" id="email" placeholder="Email" name="email">
@@ -22,3 +24,5 @@
 
 
 <% } %>
+
+    </div>

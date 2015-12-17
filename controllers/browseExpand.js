@@ -5,7 +5,7 @@ var router = express.Router();
 router.get('/:id', function(req, res){
     var term = req.params.id;
     search.browseExpand(term, function (results) {
-        fullResult = results.fullResults[0];
+        fullResult = results;
         res.render('browseExpand', fullResult);
     })
 });

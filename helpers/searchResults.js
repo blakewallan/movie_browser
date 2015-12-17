@@ -1,5 +1,6 @@
 var request = require('request');
 var async = require('async');
+var theMovieDb = require('./themoviedb.js');
 var strike = require('strike-api');
 
 //TODO: make node module for kat search following the kat.cr/json.php?= format
@@ -117,13 +118,16 @@ module.exports = {
     browseExpand : function(term, callback) {
         var imdbInfo = [];
         var fullResultsArray = [];
+        var torrentArray = [];
+
 
         async.series([
             function (callback) {
 
                 request('http://www.omdbapi.com/?s=' + term + '&plot=full&r=json', function(err, res, body){
                     if (JSON.parse(body).Response) {
-                        callback(null, resultsArray);
+                        console.log(JSON.parse(body).Response);
+                        return callback(null, null);
                     }
                     else {
                         imdbInfo.push(JSON.parse(body).Search);
@@ -133,21 +137,34 @@ module.exports = {
                 })
             },
             function (callback) {
-                var imdbID = imdbInfo[0][0].imdbID;
+                console.log(imdbInfo[0]);
 
-                request('http://www.omdbapi.com/?i=' + imdbID + '&plot=full&r=json', function(err, res, body){
-                    if(err) {
-                        console.log(err);
-                    }
-                    else {
-                        fullResultsArray.push(JSON.parse(body));
-                        console.log(fullResultsArray);
-                        callback(null, fullResultsArray);
-                    }
-                })
+                if (imdbInfo[0]) {
+                    var imdbID = imdbInfo[0][0].imdbID;
+
+                    request('http://www.omdbapi.com/?i=' + imdbID + '&plot=full&r=json', function(err, res, body){
+                        if(err) {
+                            console.log(err);
+                        }
+                        else {
+                            fullResultsArray.push(JSON.parse(body));
+                            console.log(fullResultsArray);
+                            callback(null, fullResultsArray);
+                        }
+                    })
+                } else {
+                    callback(null, null);
+                }
+            },
+            function (callback) {
+                strike.search(fullResultsArray[0].Title + ' ' + fullResultsArray[0].Year + ' &category=Movies').then(function(res){
+                    torrentArray.push(res.torrents[0]);
+                    callback(null, torrentArray)
+                });
             }
+
         ], function() {
-            callback({fullResults : fullResultsArray});
+            callback({fullResults : {omdbResults : fullResultsArray, torrents : torrentArray}});
 
         })
     },
@@ -166,10 +183,18 @@ module.exports = {
         var titleArray = [];
         for (var i = 0; i < torrentArray.length; i ++){
             var stripped = torrentArray[i].title.replace(/[^\w\s]/gi, '').replace(/\d{4}(.*)/igm, '');
-            //console.log(stripped);
             titleArray.push(stripped);
         }
         return titleArray;
+    },
+
+    searchTheMovieDB : function(term){
+        var resultsArray = [];
+        theMovieDb.search.getMovie({query : term}, function(data) {
+            resultsArray.push(JSON.parse(data.body).results);
+            //console.log(resultsArray);
+            return resultsArray;
+        }, function(data){});
     }
 }
 
