@@ -1,1 +1,13 @@
 <h1>BROWSE PAGE TO BE</h1>
+<% console.log(results.topTorrents.topTorrents[0]) %>
+
+<%
+//TODO: These fucking links blow up everything if the title is shitty
+results.titles.forEach(function(title){ %>
+
+
+    <ul>
+        <a href="<%= 'browseExpand/' + title %>"> <li><h2><%= title %></h2></li></a>
+    </ul>
+
+   <% }) %>

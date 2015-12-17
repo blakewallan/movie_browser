@@ -1,5 +1,5 @@
 var express = require('express');
-var searchThing = require('../helpers/searchResults');
+var search = require('../helpers/searchResults');
 var router = express.Router();
 
 router.get('/', function(req, res){
@@ -7,11 +7,11 @@ router.get('/', function(req, res){
 });
 
 //Route for search in nav bar
-//TODO: make sure all search requests route through here
 router.post('/', function(req, res){
     var term = req.body.q;
 
-    searchThing.searchOMDB(term, function (results) {
+    search.searchOMDB(term, function (results) {
+        //console.log(results.results[0]);
         res.render('results', results);
     })
 });

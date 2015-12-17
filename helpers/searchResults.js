@@ -6,6 +6,13 @@ var strike = require('strike-api');
 
 module.exports = {
 
+    searchSingle : function(term, callback){
+        request('http://www.omdbapi.com/?s=' + term + '&r=json', function (err, res, body) {
+            var topResult = JSON.parse(body).Search[0];
+            callback(null, topResult);
+        })
+    },
+
     searchOMDB : function(term, callback) {
 
         var resultsArray = [];
@@ -14,6 +21,7 @@ module.exports = {
             function(callback) {
                 request('http://www.omdbapi.com/?s=' + term + '&r=json', function (err, res, body) {
                     resultsArray.push(JSON.parse(body).Search);
+                    console.log(JSON.parse(body).Search[0]);
                     callback(null, resultsArray);
                 })
             },
@@ -90,52 +98,78 @@ module.exports = {
                     }
                     else {
                         fullResultsArray.push(JSON.parse(body));
-                        console.log(fullResultsArray);
                         callback(null, fullResultsArray);
                     }
                 })
             },
             function (callback) {
-                console.log(fullResultsArray[0].Type);
-                if(fullResultsArray[0].Type === 'movie'){
-                    strike.search(fullResultsArray[0].Title + ' ' + fullResultsArray[0].Year + ' &category=Movies').then(function(res){
-                        console.log(fullResultsArray[0].Title + ' ' + fullResultsArray[0].Year + '&category=Movies');
-                        torrentArray.push(res.torrents[0]);
-                        callback(null, torrentArray)
-                    });
-                }
-                else {
-                    strike.search(fullResultsArray[0].Title + ' ' + fullResultsArray[0].Year).then(function (res) {
-                        torrentArray.push(res.torrents[0]);
-                        callback(null, torrentArray)
-                    });
-                }
+                strike.search(fullResultsArray[0].Title + ' ' + fullResultsArray[0].Year + ' &category=Movies').then(function(res){
+                    torrentArray.push(res.torrents[0]);
+                    callback(null, torrentArray)
+                });
             }
         ], function() {
             callback({fullResults : {omdbResults: fullResultsArray, torrents : torrentArray}});
 
-        }
-        )
+        })
     },
 
-    //TODO: regex rough draft .+?(?=2015)
+    browseExpand : function(term, callback) {
+        var imdbInfo = [];
+        var fullResultsArray = [];
 
+        async.series([
+            function (callback) {
+
+                request('http://www.omdbapi.com/?s=' + term + '&plot=full&r=json', function(err, res, body){
+                    if (JSON.parse(body).Response) {
+                        callback(null, resultsArray);
+                    }
+                    else {
+                        imdbInfo.push(JSON.parse(body).Search);
+                        //console.log(imdbInfo[0][0]);
+                        callback(null, imdbInfo[0][0]);
+                    }
+                })
+            },
+            function (callback) {
+                var imdbID = imdbInfo[0][0].imdbID;
+
+                request('http://www.omdbapi.com/?i=' + imdbID + '&plot=full&r=json', function(err, res, body){
+                    if(err) {
+                        console.log(err);
+                    }
+                    else {
+                        fullResultsArray.push(JSON.parse(body));
+                        console.log(fullResultsArray);
+                        callback(null, fullResultsArray);
+                    }
+                })
+            }
+        ], function() {
+            callback({fullResults : fullResultsArray});
+
+        })
+    },
 
     getTopTorrents : function(category, callback){
-        if(category === 'TV'){
-            request('https://kat.cr/json.php?q=category:TV', function(err, res, body){
-                console.log('****************************************************');
-                var topTorrents = JSON.parse(res.body);
-                callback({topTorrents : topTorrents});
-            });
+
+        request('https://kat.cr/json.php?q=category:Movies', function(err, res, body){
+            var topTorrents = JSON.parse(res.body).list;
+            callback({topTorrents : topTorrents});
+        });
+
+    },
+
+    getTopTorrentTitles : function(torrentArray) {
+
+        var titleArray = [];
+        for (var i = 0; i < torrentArray.length; i ++){
+            var stripped = torrentArray[i].title.replace(/[^\w\s]/gi, '').replace(/\d{4}(.*)/igm, '');
+            //console.log(stripped);
+            titleArray.push(stripped);
         }
-        else {
-            request('https://kat.cr/json.php?q=category:Movies', function(err, res, body){
-                console.log('****************************************************');
-                var topTorrents = JSON.parse(res.body);
-                callback({topTorrents : topTorrents});
-            });
-        }
+        return titleArray;
     }
 }
 

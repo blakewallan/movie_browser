@@ -1,6 +1,6 @@
 #landing-page {
     height: 1000px;
-    /*TODO:Fix background size */
+    /*TODO:Fix this it doesnt link */
     background: url("/assets/img/dock.jpg") no-repeat center center fixed;
     -webkit-background-size: cover;
     -moz-background-size: cover;

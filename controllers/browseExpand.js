@@ -3,11 +3,11 @@ var search = require('../helpers/searchResults');
 var router = express.Router();
 
 router.get('/:id', function(req, res){
-    var imdbID = req.params.id;
-
-    search.getAllInfo(imdbID, function(fullResults){
-        res.render('expandedResult', fullResults);
-    });
+    var term = req.params.id;
+    search.browseExpand(term, function (results) {
+        fullResult = results.fullResults[0];
+        res.render('browseExpand', fullResult);
+    })
 });
 
 module.exports = router;
