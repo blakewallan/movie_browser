@@ -1,5 +1,5 @@
 
-<div class="container">
+<div class="container" id="expandedResult">
 
     <div class="col-md-6">
 
@@ -33,10 +33,17 @@
 
         <% if (onNetflix === false){ %>
         <h3>Sorry this movie is not on Netflix</h3>
-        <% } else { console.log(onNetflix.show_id) %>
+        <% } else {  %>
         <a href="<%="http://www.netflix.com/title/" + onNetflix.show_id %>"><button class="btn btn-danger">Watch on Netflix</button> </a>
         <% } %>
+        <form method="POST" action="/favorite">
+            <input type="hidden" value="<%= fullResults.omdbResults[0].imdbID %>" name="imdbid">
+            <input type="hidden" value="<%= fullResults.omdbResults[0].Year %>" name="year">
+            <input type="hidden" value="<%= fullResults.omdbResults[0].Title %>" name="title">
+            <input type="hidden" value="<%= fullResults.omdbResults[0].Poster %>" name="imagelink">
 
+            <input type="submit" class="btn btn-success" value="Add to Favorites">
+        </form>
     </div>
 
 

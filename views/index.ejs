@@ -1,6 +1,6 @@
-<div id="landing-page">
+<div id="landing-page" class="container">
 
-<% if(!currentUser){ %>
+<% if(!currentUser){  %>
 
 
 <form method="POST" role="form" action="/auth/login" class="login">
@@ -15,6 +15,9 @@
     </div>
 
     <button type="submit" class="btn btn-primary">Submit</button>
+
+    <p>Dont have an account? <a href="auth/signup">Sign Up!</a> </p>
+
 </form>
 
 

@@ -22,7 +22,7 @@ module.exports = {
             function(callback) {
                 request('http://www.omdbapi.com/?s=' + term + '&r=json', function (err, res, body) {
                     resultsArray.push(JSON.parse(body).Search);
-                    console.log(JSON.parse(body).Search[0]);
+
                     callback(null, resultsArray);
                 })
             },

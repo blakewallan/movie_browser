@@ -7,7 +7,7 @@
     <title>Torrent Browser</title>
 
     <!-- Bootstrap CSS -->
-    <link href="//netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
+      <link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.5/cosmo/bootstrap.min.css" rel="stylesheet" />
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -38,7 +38,7 @@
           <% if (currentUser) { %>
           <li><a href="/userhome">Home</a></li>
             <li><a href="/browse">Browse</a></li>
-            <li><a href="/friends">Friends</a></li>
+            <li><a href="/favorite">Favorites</a></li>
           <% } %>
         </ul>
         <ul class="nav navbar-nav navbar-right">
@@ -69,7 +69,7 @@
       <%- body %>
     </div>
 
-    <script src="../static/js/script.js"></script>
+    <script src="/js/script.js"></script>
     <!-- jQuery -->
     <script src="//code.jquery.com/jquery.js"></script>
     <!-- Bootstrap JavaScript -->

@@ -1,11 +1,10 @@
 <h1>Top Movies Downloads Right Now</h1>
 
 <%
-//TODO: These fucking links blow up everything if the title is shitty
-results.titles.forEach(function(title){ %>
+results.titles.forEach(function(title){  %>
 
 
-    <ul>
+    <ul class="browse">
         <a href="<%= 'browseExpand/' + title %>"> <li><h2><%= title %></h2></li></a>
     </ul>
 

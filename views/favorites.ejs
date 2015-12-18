@@ -1,0 +1,15 @@
+<h1>FAVORITES</h1>
+
+<% favorites.forEach(function(favorite) { console.log(favorite); %>
+
+
+    <div class="container">
+
+    <a href="/expandedResult/<%= favorite.imdbid %>"><img src="<%= favorite.imagelink %>"></a>
+            <br>
+    <a href="/favorite/<%= favorite.imdbid %>" class="btn btn-danger delete-btn">Remove</a>
+    </div>
+
+
+
+<% }); %>

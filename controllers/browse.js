@@ -4,12 +4,19 @@ var search = require('../helpers/searchResults');
 var router = express.Router();
 
 router.get('/', function(req, res) {
+    if(req.user) {
+        //TODO: add show functionality
+        search.getTopTorrents('Movie', function(topTorrents){
+            var titles = search.getTopTorrentTitles(topTorrents.topTorrents);
+            res.render('browse', {results : {topTorrents: topTorrents, titles : titles}});
+        })
+    }
+    else {
+        req.flash('danger', 'Please log in or sign up');
+        res.redirect('/');
+    }
 
-    //TODO: add show functionality
-    search.getTopTorrents('Movie', function(topTorrents){
-        var titles = search.getTopTorrentTitles(topTorrents.topTorrents);
-        res.render('browse', {results : {topTorrents: topTorrents, titles : titles}});
-    })
+
 });
 
 module.exports = router;
