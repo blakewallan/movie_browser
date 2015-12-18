@@ -4,6 +4,8 @@
     <div class="col-md-6">
 
         <%
+            var onNetflix = fullResults.onNetflix;
+
         if(fullResults.omdbResults[0].Poster !== 'N/A'){
             var pic = fullResults.omdbResults[0].Poster;
         }
@@ -21,11 +23,19 @@
 
         <h1><%= fullResults.omdbResults[0].Title %></h1>
         <br>
+        <h3><%="IMDB Rating: " + fullResults.omdbResults[0].imdbRating %></h3>
+        <br>
         <h3><%=fullResults.omdbResults[0].Genre%></h3>
         <br>
         <p><%= fullResults.omdbResults[0].Plot %></p>
 
         <a href="<%= 'magnet:?xt=urn:btih:' + fullResults.torrents[0].torrent_hash%>"><button class="btn btn-primary">Download</button> </a>
+
+        <% if (onNetflix === false){ %>
+        <h3>Sorry this movie is not on Netflix</h3>
+        <% } else { console.log(onNetflix.show_id) %>
+        <a href="<%="http://www.netflix.com/title/" + onNetflix.show_id %>"><button class="btn btn-danger">Watch on Netflix</button> </a>
+        <% } %>
 
     </div>
 

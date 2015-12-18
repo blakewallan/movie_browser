@@ -10,7 +10,10 @@ router.get('/', function(req, res){
 router.post('/', function(req, res){
     var term = req.body.q;
 
-    console.log(search.searchTheMovieDB(term));
+    search.searchOMDB(term, function (results) {
+        //console.log(results.results[0]);
+        res.render('results', results);
+    })
 });
 
 module.exports = router;

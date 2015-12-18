@@ -1,7 +1,10 @@
 <div class="container">
 
-    <% var omdb = fullResult.fullResults.omdbResults[0];
+    <%
+    var omdb = fullResult.fullResults.omdbResults[0];
     var torrents = fullResult.fullResults.torrents[0];
+    var onNetflix = fullResult.fullResults.onNetflix;
+
     if(omdb){ %>
 
     <div class="col-md-6">
@@ -24,12 +27,21 @@
 
         <h1><%= omdb.Title %></h1>
         <br>
+        <h3><%="IMDB Rating: " + omdb.imdbRating %></h3>
+        <br>
         <h3><%= omdb.Genre%></h3>
         <br>
         <p><%= omdb.Plot %>
-            <br>
+
+                <br>
 
             <a href="<%= 'magnet:?xt=urn:btih:' + torrents.torrent_hash%>"><button class="btn btn-primary">Download</button> </a>
+
+            <% if (onNetflix === false){ %>
+                <h3>Sorry this movie is not on Netflix</h3>
+            <% } else {  %>
+                <a href="<%"http://www.netflix.com/title/"+ onNetflix.show_id %>"><button class="btn btn-danger">Watch on Netflix</button> </a>
+        <% } %>
 
 <% } else { %>
 

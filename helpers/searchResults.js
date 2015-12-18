@@ -89,6 +89,7 @@ module.exports = {
     getAllInfo : function(imdbID, callback) {
         var fullResultsArray = [];
         var torrentArray = [];
+        var onNetflix;
 
         async.series([
             function (callback) {
@@ -108,9 +109,29 @@ module.exports = {
                     torrentArray.push(res.torrents[0]);
                     callback(null, torrentArray)
                 });
+            },
+
+            function(callback) {
+
+                if(fullResultsArray.length > 0) {
+                    request('http://netflixroulette.net/api/api.php?title=' + fullResultsArray[0].Title, function (err, res, body) {
+                        if(JSON.parse(body).errorcode === 404){
+                            onNetflix = false;
+                            callback(null, onNetflix);
+                        }
+                        else {
+                            onNetflix = JSON.parse(body);
+                            callback(null, onNetflix);
+                        }
+                    });
+                }
+                else {
+                    callback(null,null);
+                }
             }
+
         ], function() {
-            callback({fullResults : {omdbResults: fullResultsArray, torrents : torrentArray}});
+            callback({fullResults : {omdbResults: fullResultsArray, torrents : torrentArray, onNetflix : onNetflix}});
 
         })
     },
@@ -119,27 +140,26 @@ module.exports = {
         var imdbInfo = [];
         var fullResultsArray = [];
         var torrentArray = [];
+        var onNetflix;
 
 
         async.series([
             function (callback) {
 
                 request('http://www.omdbapi.com/?s=' + term + '&plot=full&r=json', function(err, res, body){
+
                     if (JSON.parse(body).Response) {
-                        console.log(JSON.parse(body).Response);
                         return callback(null, null);
                     }
                     else {
                         imdbInfo.push(JSON.parse(body).Search);
-                        //console.log(imdbInfo[0][0]);
                         callback(null, imdbInfo[0][0]);
                     }
                 })
             },
             function (callback) {
-                console.log(imdbInfo[0]);
 
-                if (imdbInfo[0]) {
+                if (imdbInfo.length > 0) {
                     var imdbID = imdbInfo[0][0].imdbID;
 
                     request('http://www.omdbapi.com/?i=' + imdbID + '&plot=full&r=json', function(err, res, body){
@@ -148,23 +168,47 @@ module.exports = {
                         }
                         else {
                             fullResultsArray.push(JSON.parse(body));
-                            console.log(fullResultsArray);
                             callback(null, fullResultsArray);
                         }
-                    })
-                } else {
+                    });
+                }
+                else {
                     callback(null, null);
                 }
             },
             function (callback) {
-                strike.search(fullResultsArray[0].Title + ' ' + fullResultsArray[0].Year + ' &category=Movies').then(function(res){
-                    torrentArray.push(res.torrents[0]);
-                    callback(null, torrentArray)
-                });
+                if(imdbInfo.length > 0) {
+                    strike.search(fullResultsArray[0].Title + ' ' + fullResultsArray[0].Year + ' &category=Movies').then(function (res) {
+                        torrentArray.push(res.torrents[0]);
+                        callback(null, torrentArray)
+                    });
+                }
+                else {
+                    callback(null, null);
+                }
+            },
+
+            function(callback) {
+
+                if(imdbInfo.length > 0) {
+                    request('http://netflixroulette.net/api/api.php?title=' + fullResultsArray[0].Title, function (err, res, body) {
+                        if(JSON.parse(body).errorcode === 404){
+                            onNetflix = false;
+                            callback(null, onNetflix);
+                        }
+                        else {
+                            onNetflix = JSON.parse(body);
+                            callback(null, onNetflix);
+                        }
+                    });
+                }
+                else {
+                    callback(null,null);
+                }
             }
 
         ], function() {
-            callback({fullResults : {omdbResults : fullResultsArray, torrents : torrentArray}});
+            callback({fullResults : {omdbResults : fullResultsArray, torrents : torrentArray, onNetflix : onNetflix}});
 
         })
     },
@@ -186,16 +230,16 @@ module.exports = {
             titleArray.push(stripped);
         }
         return titleArray;
-    },
-
-    searchTheMovieDB : function(term){
-        var resultsArray = [];
-        theMovieDb.search.getMovie({query : term}, function(data) {
-            resultsArray.push(JSON.parse(data.body).results);
-            //console.log(resultsArray);
-            return resultsArray;
-        }, function(data){});
     }
+
+    //searchTheMovieDB : function(term){
+    //    var resultsArray = [];
+    //    theMovieDb.search.getMovie({query : term}, function(data) {
+    //        resultsArray.push(JSON.parse(data.body).results);
+    //        //console.log(resultsArray);
+    //        return resultsArray;
+    //    }, function(data){});
+    //}
 }
 
 
