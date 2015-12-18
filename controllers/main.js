@@ -5,6 +5,7 @@ var router = express.Router();
 
 router.get('/', function(req, res) {
 
+    search.searchTheMovieDB('alien');
     res.render('index');
 
 });

@@ -1,6 +1,6 @@
 var request = require('request');
 var async = require('async');
-var theMovieDb = require('./themoviedb.js');
+var moviedb = require('moviedb')('36d4951c7e63c2fae40cb79cbd457168');
 var strike = require('strike-api');
 
 //TODO: make node module for kat search following the kat.cr/json.php?= format
@@ -230,16 +230,15 @@ module.exports = {
             titleArray.push(stripped);
         }
         return titleArray;
-    }
+    },
 
-    //searchTheMovieDB : function(term){
-    //    var resultsArray = [];
-    //    theMovieDb.search.getMovie({query : term}, function(data) {
-    //        resultsArray.push(JSON.parse(data.body).results);
-    //        //console.log(resultsArray);
-    //        return resultsArray;
-    //    }, function(data){});
-    //}
+    searchTheMovieDB : function(term){
+
+        moviedb.searchMovie({query: term }, function(err, res){
+            console.log(res);
+        });
+
+    }
 }
 
 
