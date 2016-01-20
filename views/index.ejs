@@ -20,12 +20,73 @@
 
 </form>
 
+</div>
 
-<% } else {%>
 
-<h1>Welcome back <%= currentUser.username %> </h1>
+<% } else {
+
+    pic1 = 'http://image.tmdb.org/t/p/original/' + top[0].backdrop_path;
+    pic2 = 'http://image.tmdb.org/t/p/original/' + top[1].backdrop_path;
+    pic3 = 'http://image.tmdb.org/t/p/original/' + top[2].backdrop_path;
+    pic4 = 'http://image.tmdb.org/t/p/original/' + top[4].backdrop_path;
+
+    caption1 = top[0].title;
+    caption2 = top[1].title;
+    caption3 = top[2].title;
+    caption4 = top[3].title;
+
+%>
+
+<h1>Welcome <%= currentUser.username %> </h1>
+
+
+    <div class="container-fluid" id="slideshow">
+
+        <div id="myCarousel" class="carousel slide" data-ride="carousel">
+            <!-- Indicators -->
+            <ol class="carousel-indicators">
+                <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+                <li data-target="#myCarousel" data-slide-to="1"></li>
+                <li data-target="#myCarousel" data-slide-to="2"></li>
+                <li data-target="#myCarousel" data-slide-to="3"></li>
+            </ol>
+
+            <!-- Wrapper for slides -->
+            <div class="carousel-inner" role="listbox">
+                <div class="item active">
+                    <h1 class="carousel-caption"><%= caption1 %></h1>
+                    <img src="<%= pic1%>">
+                </div>
+
+                <div class="item">
+                    <h1 class="carousel-caption"><%= caption2 %></h1>
+                    <img src="<%= pic2%>">
+                </div>
+
+                <div class="item">
+                    <h1 class="carousel-caption"><%= caption3 %></h1>
+                    <img src="<%= pic3%>">
+                </div>
+
+                <div class="item">
+                    <h1 class="carousel-caption"><%= caption4 %></h1>
+                    <img src="<%= pic4%>">
+                </div>
+            </div>
+
+            <!-- Left and right controls -->
+            <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
+                <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                <span class="sr-only">Previous</span>
+            </a>
+            <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
+                <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                <span class="sr-only">Next</span>
+            </a>
+        </div>
+
+    </div>
 
 
 <% } %>
 
-    </div>

@@ -1,11 +1,14 @@
 <div class="container" id="expandedResult">
-
-    <%
+<%
     var omdb = fullResult.fullResults.omdbResults[0];
     var torrents = fullResult.fullResults.torrents[0];
     var onNetflix = fullResult.fullResults.onNetflix;
 
-    if(omdb){ %>
+%>
+    <%if(omdb){
+
+
+    %>
 
     <div class="col-md-6">
 
@@ -35,27 +38,59 @@
 
                 <br>
 
-            <a href="<%= 'magnet:?xt=urn:btih:' + torrents.torrent_hash%>"><button class="btn btn-primary">Download</button> </a>
-
             <% if (onNetflix === false){ %>
                 <h3>Sorry this movie is not on Netflix</h3>
             <% } else {  %>
-                <a href="<%"http://www.netflix.com/title/"+ onNetflix.show_id %>"><button class="btn btn-danger">Watch on Netflix</button> </a>
+                <a href="<%= "http://www.netflix.com/title/"+ onNetflix.show_id %>"><button class="btn btn-danger">Watch on Netflix</button> </a>
         <% } %>
 
-<% } else { %>
+        <form method="POST" action="/favorite">
+            <input type="hidden" value="<%= omdb.imdbID %>" name="imdbid">
+            <input type="hidden" value="<%= omdb.Year %>" name="year">
+            <input type="hidden" value="<%= omdb.Title %>" name="title">
+            <input type="hidden" value="<%= omdb.Poster %>" name="imagelink">
+
+            <input type="submit" class="btn btn-success" value="Add to Favorites">
+        </form>
+
+
+        </div>
+</div>
+
+        <% } else { %>
+
+    <div class="container">
 
         <h1>Sorry this movie can not be loaded</h1>
 
         <% } %>
 
-    </div>
+
 
     <div class="container" id="comments">
-
-
 
     </div>
 
 
 </div>
+
+<div class="container" id="expandedTorrents">
+
+    <h1>Available Torrents</h1>
+
+    <% torrents.forEach(function(torrent){ %>
+
+    <ul>
+        <li>
+            <h2><%= torrent.torrent_title %></h2>
+            <p><%="Seeders: " + torrent.seeds %></p>
+            <p><%="Leeches: " + torrent.leeches %></p>
+            <a href="<%= 'magnet:?xt=urn:btih:' + torrent.torrent_hash%>"><button class="btn btn-primary">Download</button> </a>
+        </li>
+    </ul>
+
+
+    <% }) %>
+
+</div>
+

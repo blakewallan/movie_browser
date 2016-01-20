@@ -1,2 +1,46 @@
 <h1><%= 'Hey ' + currentUser.username +' check out some suggestions for you '%></h1>
 
+<%
+  var movie1Suggestions = userSuggestions.suggestions[0].results;
+  var movie2Suggestions = userSuggestions.suggestions[1].results;
+  var movie3Suggestions = userSuggestions.suggestions[2].results;
+
+   %>
+
+<div class="container-fluid">
+
+
+    <% movie1Suggestions.forEach(function(movie) { %>
+
+
+    <a href="<%='browseExpand/' + movie.title%>">
+        <img src="<%='http://image.tmdb.org/t/p/w500/' + movie.poster_path  %>">
+
+    </a>
+
+    <% });  %>
+
+
+    <% movie2Suggestions.forEach(function(movie) { %>
+
+
+    <a href="<%='browseExpand/' + movie.title%>">
+        <img src="<%='http://image.tmdb.org/t/p/w500/' + movie.poster_path  %>">
+
+    </a>
+
+    <% });  %>
+
+    <% movie3Suggestions.forEach(function(movie) { %>
+
+
+    <a href="<%='browseExpand/' + movie.title%>">
+        <img src="<%='http://image.tmdb.org/t/p/w500/' + movie.poster_path  %>">
+
+    </a>
+
+    <% });  %>
+
+
+</div>
+

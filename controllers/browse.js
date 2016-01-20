@@ -5,7 +5,6 @@ var router = express.Router();
 
 router.get('/', function(req, res) {
     if(req.user) {
-        //TODO: add show functionality
         search.getTopTorrents('Movie', function(topTorrents){
             var titles = search.getTopTorrentTitles(topTorrents.topTorrents);
             res.render('browse', {results : {topTorrents: topTorrents, titles : titles}});

@@ -106,7 +106,7 @@ module.exports = {
             },
             function (callback) {
                 strike.search(fullResultsArray[0].Title + ' ' + fullResultsArray[0].Year + ' &category=Movies').then(function(res){
-                    torrentArray.push(res.torrents[0]);
+                    torrentArray.push(res.torrents);
                     callback(null, torrentArray)
                 });
             },
@@ -179,7 +179,7 @@ module.exports = {
             function (callback) {
                 if(imdbInfo.length > 0) {
                     strike.search(fullResultsArray[0].Title + ' ' + fullResultsArray[0].Year + ' &category=Movies').then(function (res) {
-                        torrentArray.push(res.torrents[0]);
+                        torrentArray.push(res.torrents);
                         callback(null, torrentArray)
                     });
                 }
@@ -232,11 +232,50 @@ module.exports = {
         return titleArray;
     },
 
-    searchTheMovieDB : function(term){
+    getSimilar : function(imdbid, callback){
 
-        moviedb.searchMovie({query: term }, function(err, res){
-            console.log(res);
-        });
+        var suggestions = [];
+
+        async.series([
+
+            function (callback) {
+                request('http://api.themoviedb.org/3/movie/' + imdbid[0] + '/similar?api_key=36d4951c7e63c2fae40cb79cbd457168', function(err, res, body){
+                    var similar = JSON.parse(res.body);
+                    suggestions.push(similar);
+                    callback(null, suggestions);
+                });
+            },
+
+            function (callback) {
+                request('http://api.themoviedb.org/3/movie/' + imdbid[1] + '/similar?api_key=36d4951c7e63c2fae40cb79cbd457168', function(err, res, body){
+                    var similar = JSON.parse(res.body);
+                    suggestions.push(similar);
+                    callback(null, suggestions);
+                });
+            },
+
+            function (callback) {
+                request('http://api.themoviedb.org/3/movie/' + imdbid[2] + '/similar?api_key=36d4951c7e63c2fae40cb79cbd457168', function(err, res, body){
+                    var similar = JSON.parse(res.body);
+                    suggestions.push(similar);
+                    callback(null, suggestions);
+                });
+            }
+
+        ], function() {
+            callback({suggestions : suggestions});
+
+        })
+    },
+    
+    getSimilar2 : function () {
+        
+    },
+
+    getTopMovies : function(callback) {
+
+
+
 
     }
 }

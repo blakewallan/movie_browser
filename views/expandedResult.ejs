@@ -4,9 +4,11 @@
     <div class="col-md-6">
 
         <%
+            var omdb = fullResults.omdbResults[0];
             var onNetflix = fullResults.onNetflix;
+            var torrents = fullResults.torrents[0];
 
-        if(fullResults.omdbResults[0].Poster !== 'N/A'){
+        if(omdb.Poster !== 'N/A'){
             var pic = fullResults.omdbResults[0].Poster;
         }
         else {
@@ -19,32 +21,53 @@
 
     </div>
 
+    <div class="row">
     <div class="col-md-6">
 
-        <h1><%= fullResults.omdbResults[0].Title %></h1>
+        <h1><%= omdb.Title %></h1>
         <br>
-        <h3><%="IMDB Rating: " + fullResults.omdbResults[0].imdbRating %></h3>
+        <h3><%="IMDB Rating: " + omdb.imdbRating %></h3>
         <br>
-        <h3><%=fullResults.omdbResults[0].Genre%></h3>
+        <h3><%=omdb.Genre%></h3>
         <br>
-        <p><%= fullResults.omdbResults[0].Plot %></p>
+        <p><%= omdb.Plot %></p>
 
-        <a href="<%= 'magnet:?xt=urn:btih:' + fullResults.torrents[0].torrent_hash%>"><button class="btn btn-primary">Download</button> </a>
 
         <% if (onNetflix === false){ %>
         <h3>Sorry this movie is not on Netflix</h3>
         <% } else {  %>
-        <a href="<%="http://www.netflix.com/title/" + onNetflix.show_id %>"><button class="btn btn-danger">Watch on Netflix</button> </a>
+        <a href="<%= "http://www.netflix.com/title/" + onNetflix.show_id %>"><button class="btn btn-danger">Watch on Netflix</button> </a>
         <% } %>
         <form method="POST" action="/favorite">
-            <input type="hidden" value="<%= fullResults.omdbResults[0].imdbID %>" name="imdbid">
-            <input type="hidden" value="<%= fullResults.omdbResults[0].Year %>" name="year">
-            <input type="hidden" value="<%= fullResults.omdbResults[0].Title %>" name="title">
-            <input type="hidden" value="<%= fullResults.omdbResults[0].Poster %>" name="imagelink">
+            <input type="hidden" value="<%= omdb.imdbID %>" name="imdbid">
+            <input type="hidden" value="<%= omdb.Year %>" name="year">
+            <input type="hidden" value="<%= omdb.Title %>" name="title">
+            <input type="hidden" value="<%= omdb.Poster %>" name="imagelink">
 
             <input type="submit" class="btn btn-success" value="Add to Favorites">
         </form>
     </div>
-
+    </div>
 
 </div>
+
+<div class="container" id="expandedTorrents">
+
+    <h1>Available Torrents</h1>
+
+    <% torrents.forEach(function(torrent){ %>
+
+    <ul>
+        <li>
+            <h2><%= torrent.torrent_title %></h2>
+            <p><%="Seeders: " + torrent.seeds %></p>
+            <p><%="Leeches: " + torrent.leeches %></p>
+            <a href="<%= 'magnet:?xt=urn:btih:' + torrent.torrent_hash%>"><button class="btn btn-primary">Download</button> </a>
+        </li>
+    </ul>
+
+
+    <% }) %>
+
+</div>
+

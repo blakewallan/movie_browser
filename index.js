@@ -47,4 +47,9 @@ app.use('/browse', require('./controllers/browse'));
 app.use('/browseExpand', require('./controllers/browseExpand'));
 app.use('/favorite', require('./controllers/favorite'));
 
-app.listen(3000);
+app.listen(process.env.PORT || 3000);
+
+
+//TODO: convert all searches from OMDB to TMDB
+//TODO: add show functionality
+//TODO: add trailers to all movies
