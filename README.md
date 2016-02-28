@@ -1,3 +1,5 @@
+(http://i.imgur.com/TyCOKtt.png)
+
 # movie_browser
 
 Simple application using Node, Express and PostgreSQL. Functionality is currently restricted to registered users. 
