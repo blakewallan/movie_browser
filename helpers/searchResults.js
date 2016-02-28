@@ -2,6 +2,7 @@ var request = require('request');
 var async = require('async');
 var moviedb = require('moviedb')('36d4951c7e63c2fae40cb79cbd457168');
 var strike = require('strike-api');
+var kat = require("kat-api-json");
 
 //TODO: make node module for kat search following the kat.cr/json.php?= format
 
@@ -105,10 +106,16 @@ module.exports = {
                 })
             },
             function (callback) {
-                strike.search(fullResultsArray[0].Title + ' ' + fullResultsArray[0].Year + ' &category=Movies').then(function(res){
-                    torrentArray.push(res.torrents);
-                    callback(null, torrentArray)
-                });
+                request('https://kat.cr/json.php?q='+ fullResultsArray[0].Title + ' ' + fullResultsArray[0].Year +'&category=Movies', function(err, res, body){
+                    if (err){
+                        console.log(err);
+                    }
+                    else {
+                        torrentArray = JSON.parse(body).list;
+                        //console.log(torrentArray);
+                        callback(null, torrentArray);
+                    }
+                })
             },
 
             function(callback) {
@@ -148,7 +155,7 @@ module.exports = {
 
                 request('http://www.omdbapi.com/?s=' + term + '&plot=full&r=json', function(err, res, body){
 
-                    if (JSON.parse(body).Response) {
+                    if (!JSON.parse(body).Response) {
                         return callback(null, null);
                     }
                     else {
@@ -178,10 +185,17 @@ module.exports = {
             },
             function (callback) {
                 if(imdbInfo.length > 0) {
-                    strike.search(fullResultsArray[0].Title + ' ' + fullResultsArray[0].Year + ' &category=Movies').then(function (res) {
-                        torrentArray.push(res.torrents);
-                        callback(null, torrentArray)
-                    });
+
+                    request('https://kat.cr/json.php?q='+ fullResultsArray[0].Title + ' ' + fullResultsArray[0].Year +'&category=Movies', function(err, res, body){
+                        if (err){
+                            console.log(err);
+                        }
+                        else {
+                            torrentArray = JSON.parse(body).list;
+                            //console.log(torrentArray);
+                            callback(null, torrentArray);
+                        }
+                    })
                 }
                 else {
                     callback(null, null);
@@ -215,11 +229,18 @@ module.exports = {
 
     getTopTorrents : function(category, callback){
 
-        request('https://kat.cr/json.php?q=category:Movies', function(err, res, body){
-            var topTorrents = JSON.parse(res.body).list;
-            callback({topTorrents : topTorrents});
-        });
+        kat.mostPopular({
+            category: "Movies",
+            order: "seeders",
+            page: 1
+        },function(err,data){
+            if ( err ) {
+                throw err;
+            }
+            callback({topTorrents : data.list});
+            console.log(data.list);
 
+        });
     },
 
     getTopTorrentTitles : function(torrentArray) {
@@ -267,17 +288,7 @@ module.exports = {
 
         })
     },
-    
-    getSimilar2 : function () {
-        
-    },
 
-    getTopMovies : function(callback) {
-
-
-
-
-    }
 }
 
 

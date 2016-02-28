@@ -6,7 +6,7 @@
         <%
             var omdb = fullResults.omdbResults[0];
             var onNetflix = fullResults.onNetflix;
-            var torrents = fullResults.torrents[0];
+            var torrents = fullResults.torrents;
 
         if(omdb.Poster !== 'N/A'){
             var pic = fullResults.omdbResults[0].Poster;
@@ -59,10 +59,10 @@
 
     <ul>
         <li>
-            <h2><%= torrent.torrent_title %></h2>
+            <h2><%= torrent.title %></h2>
             <p><%="Seeders: " + torrent.seeds %></p>
-            <p><%="Leeches: " + torrent.leeches %></p>
-            <a href="<%= 'magnet:?xt=urn:btih:' + torrent.torrent_hash%>"><button class="btn btn-primary">Download</button> </a>
+            <p><%="Leeches: " + torrent.leechs %></p>
+            <a href="<%= 'magnet:?xt=urn:btih:' + torrent.hash%>"><button class="btn btn-primary">Download</button> </a>
         </li>
     </ul>
 

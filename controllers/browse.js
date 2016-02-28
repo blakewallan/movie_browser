@@ -7,7 +7,9 @@ router.get('/', function(req, res) {
     if(req.user) {
         search.getTopTorrents('Movie', function(topTorrents){
             var titles = search.getTopTorrentTitles(topTorrents.topTorrents);
+            console.log(topTorrents);
             res.render('browse', {results : {topTorrents: topTorrents, titles : titles}});
+
         })
     }
     else {
