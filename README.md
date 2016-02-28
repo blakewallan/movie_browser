@@ -1,4 +1,5 @@
-(http://i.imgur.com/TyCOKtt.png)
+
+![alt text](http://i.imgur.com/TyCOKtt.png "ScreenCap")
 
 # movie_browser
 
@@ -8,7 +9,9 @@ Users are able to:
 search for movies, 
 view specific information about movies, 
 find out if the movie is on netflix,
-access direct magnet links for the movie
+access direct magnet links for the movie,
+add favorite movies
+view list of movies inspired by their favorites
 
 ## Install
 
